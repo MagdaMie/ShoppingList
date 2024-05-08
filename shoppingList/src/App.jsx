@@ -7,9 +7,10 @@ import ListElement from "./componets/ListElement"
 
 
 function App() {
-  const [ShoppingListItems, setShoppingListItems] = useState([])
+  const [shoppingListItems, setShoppingListItems] = useState([])
 
   const[Item, setItem] = useState('')
+  const[isEditing, setIsediting] = useState(false)
 
   const handleSetItem = (e) => {
     setItem(e.target.value)
@@ -17,12 +18,18 @@ function App() {
 
   const handleAddItemToTheList = (e) => {
     e.preventDefault()
-    setShoppingListItems([...ShoppingListItems, Item])
+    setShoppingListItems([...shoppingListItems, Item])
     setItem('')
   }
 
   const handleRemoveItemfromTheList = (id) => {
-    setShoppingListItems(ShoppingListItems.filter(shoppingListItem => shoppingListItem !== id))
+    setShoppingListItems(shoppingListItems.filter(shoppingListItem => shoppingListItem !== id))
+  }
+
+  const handleEditShoppingListItem = (id) => {
+    setItem(id)
+    setIsediting(true)
+    setShoppingListItems(shoppingListItems.filter(shoppingListItem => shoppingListItem !== id))
   }
 
 
@@ -33,13 +40,15 @@ function App() {
       <Input 
       onChange={handleSetItem}
       onSubmit={handleAddItemToTheList}
-      value={Item}/>
-      {ShoppingListItems.map((shoppingListItem, index) => {
+      value={Item}
+      buttonValue={isEditing? 'Edit' : 'Add'}/>
+      {shoppingListItems.map((shoppingListItem, index) => {
         return <ListElement 
         content={shoppingListItem}
         key={index}
         id={index}
-        onClick={() => handleRemoveItemfromTheList(shoppingListItem)}/>
+        onClick={() => handleRemoveItemfromTheList(shoppingListItem)}
+        edit={() => handleEditShoppingListItem(shoppingListItem)}/>
       })}
     </div>
   )
