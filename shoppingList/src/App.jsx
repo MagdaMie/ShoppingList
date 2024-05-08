@@ -7,17 +7,39 @@ import ListElement from "./componets/ListElement"
 
 
 function App() {
-  const [ShoppingListItems, setShoppingListItems] = useState(['carrot', 'potatoes', 'parsley'])
+  const [ShoppingListItems, setShoppingListItems] = useState([])
+
+  const[Item, setItem] = useState('')
+
+  const handleSetItem = (e) => {
+    setItem(e.target.value)
+  }
+
+  const handleAddItemToTheList = (e) => {
+    e.preventDefault()
+    setShoppingListItems([...ShoppingListItems, Item])
+    setItem('')
+  }
+
+  const handleRemoveItemfromTheList = (id) => {
+    setShoppingListItems(ShoppingListItems.filter(shoppingListItem => shoppingListItem !== id))
+  }
+
 
 
   return (
     <div className="mt-36 text-center">
       <Header />
-      <Input />
-      {ShoppingListItems.map(shoppingListItem => {
+      <Input 
+      onChange={handleSetItem}
+      onSubmit={handleAddItemToTheList}
+      value={Item}/>
+      {ShoppingListItems.map((shoppingListItem, index) => {
         return <ListElement 
         content={shoppingListItem}
-        key={Date.now}/>
+        key={index}
+        id={index}
+        onClick={() => handleRemoveItemfromTheList(shoppingListItem)}/>
       })}
     </div>
   )
