@@ -10,7 +10,7 @@ function App() {
   const [shoppingListItems, setShoppingListItems] = useState([])
 
   const[Item, setItem] = useState('')
-  const[isEditing, setIsediting] = useState(false)
+  const[isEditing, setIsEditing] = useState(false)
 
   const handleSetItem = (e) => {
     setItem(e.target.value)
@@ -20,6 +20,7 @@ function App() {
     e.preventDefault()
     setShoppingListItems([...shoppingListItems, Item])
     setItem('')
+    setIsEditing(false)
   }
 
   const handleRemoveItemfromTheList = (id) => {
@@ -28,7 +29,7 @@ function App() {
 
   const handleEditShoppingListItem = (id) => {
     setItem(id)
-    setIsediting(true)
+    setIsEditing(true)
     setShoppingListItems(shoppingListItems.filter(shoppingListItem => shoppingListItem !== id))
   }
 
